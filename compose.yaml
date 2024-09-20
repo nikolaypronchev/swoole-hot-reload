@@ -1,0 +1,16 @@
+name: swoole-hot-reload
+
+services:
+  swoole-http-server:
+    build:
+      context: .
+      args:
+        - PHP_VERSION=${PHP_VERSION:-8.3.11}
+    working_dir: /swoole-hot-reload
+    ports:
+      - "${HOST_PORT:-80}:80"
+    volumes:
+      - ./src:/swoole-hot-reload/src
+      - ./composer.json:/swoole-hot-reload/composer.json
+      - ./composer.lock:/swoole-hot-reload/composer.lock
+    command: sh -c "composer i && php src/server.php"
